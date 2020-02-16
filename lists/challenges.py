@@ -63,33 +63,6 @@ def enlarge(items):
     return output
 
 
-def is_continuous_sequence(sequence):
-    if len(sequence) < 2:
-        return False
-    for index, element in enumerate(sequence, start=sequence[0]):
-        if index != element:
-            return False
-    return True
-
-def summary_ranges(sequence):
-    if len(sequence) < 2:
-        return []
-    start = sequence[0]
-    end = sequence[len(sequence) - 1]
-    while 
-        for index, element in enumerate(sequence[:], start=sequence[0]):
-            if index != element:
-                end = index
-                
-                flag = 
-        else:
-            end = index
-
-
-print(summary_ranges([1, 2, 3]))
-
-
-
 def find_longest_length(string):
     output = []
     for index, _ in enumerate(string):
@@ -102,23 +75,55 @@ def find_longest_length(string):
             substring += char
         output.append(len(substring))
     return max(output)
-"""
-def unique_sequence_length(string):
-    unique_sequence = set()
-    length = 0
-    for char in string:
-        if char in unique_sequence:
-            break
-        unique_sequence.add(char)
-        length += 1
-    return length
 
 
-def find_longest_length(string):
-    longest_length = 0
-    for i, _ in enumerate(string):
-        substring_length = unique_sequence_length(string[i:])
-        if longest_length < substring_length:
-            longest_length = substring_length
-    return longest_length
-"""
+def transposed(matrix):
+    if not len(matrix):
+        return []
+    count_columns = len(matrix)
+    count_rows = len(matrix[0])
+    res = [[0] * count_columns for _ in range(count_rows)]
+
+    for index_row, row in enumerate(matrix):
+        for index_col, col in enumerate(row):
+            res[index_col][index_row] = col
+    return res
+
+
+def triangle(count_rows):
+    prev = [1]
+    if count_rows == 0:
+        return prev
+
+    while count_rows != 0:
+        res = [1]
+        for index, element in enumerate(prev[:-1], start=1):
+            res.append(element + prev[index])
+        res.append(1)
+        prev = res
+        count_rows -= 1
+    return prev
+
+
+def summary_ranges(l):
+    if len(l) < 2:
+        return []
+
+    start = l[0]
+    stop = l[len(l)-1]
+    flag = False
+    res = []
+    for i, element in enumerate(l[:-1], start=1):
+        if l[i] - element != 1:
+            if element == stop:
+                start = l[i]
+                continue
+            res.append(f'{start}->{element}')
+            start = stop = l[i]
+            flag = True
+    else:
+        if not flag:
+            res.append(f'{start}->{stop}')
+    return res
+
+print(summary_ranges([110, 111, 112, 111, -5, -4, -2, -3, -4, -5]))
